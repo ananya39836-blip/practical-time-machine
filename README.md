@@ -3,6 +3,9 @@
 **Subtitle:** A Science-First Investigation into Temporal Physics, Relativistic Engineering, Experimental Validation, and Future Technologies.
 
 ---
+[GitHub url](https://github.com/ananya39836-blip/practical-time-machine/tree/main)
+
+[Streamlit Application URL](https://practical-time-machine.streamlit.app/)
 
 ## Executive Overview
 The **Practical Time Machine** research initiative investigates whether an engineered laboratory system capable of producing, measuring, and exploiting relativistic temporal effects can be built with known physics and experimentally testable methods.
