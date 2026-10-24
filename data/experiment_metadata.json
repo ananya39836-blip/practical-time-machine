@@ -1,0 +1,11 @@
+{
+    "experiment_id": "EXP-DRM-GTDVP-001",
+    "elevation_diff_meters": 100.0,
+    "duration_hours": 72,
+    "total_samples": 25920,
+    "theoretical_fractional_shift": 1.0911369672198217e-14,
+    "predicted_final_advance_ns": 2.8282270190337777,
+    "kalman_recovered_final_advance_ns": 2.837730704364489,
+    "recovery_error_picoseconds": 9.503685330711559,
+    "status": "SIMULATED_VALIDATION_PASSED"
+}

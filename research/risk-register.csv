@@ -1,0 +1,9 @@
+Risk ID,Risk Title,Root Cause,Severity (1-10),Likelihood (1-10),Detectability (1-10),RPN,Mitigation Strategy & Safeguards,Residual Risk Status
+RSK-01,Rubidium Lock Loss,Lamp depletion / synthesizer unlock,8,2,1,16,Hardware lock monitoring pin (DB9 Pin 7); auto-flags corrupted frames and halts session,Controlled / Low
+RSK-02,Thermal Chamber Runaway,Thermistor detachment or H-bridge failure,7,2,2,28,Mechanical 45°C bimetallic cutoff switch cuts DC rail independently of software,Controlled / Low
+RSK-03,TIC Phase Step Jitter,Trigger noise or threshold comparator glitch,6,3,1,18,Real-time Median Absolute Deviation (MAD) filter rejects jumps > 100 ps,Controlled / Low
+RSK-04,Utility Mains Power Outage,Facility grid disruption,8,3,1,24,Eaton 9PX online double-conversion UPS provides 180 min runtime at full load,Controlled / Low
+RSK-05,Data Ingestion Bottleneck,OS disk I/O lock or filesystem crash,5,2,2,20,SQLite3 WAL journaling mode + mirrored NVMe SSDs + RAM ring buffer,Controlled / Low
+RSK-06,Coaxial Strain Phase Shift,Accidental mechanical pull on cables,6,2,2,24,Anodized aluminum strain-relief clamps and bulkhead service loops on rear panel,Controlled / Low
+RSK-07,Magnetic Leakage Spike,Mechanical shock degrading mu-metal permeability,5,2,2,20,Continuous 3-axis Bartington fluxgate logging alerts on ambient field shifts > 5 nT,Controlled / Low
+RSK-08,False Positive Redshift Claim,Undetected thermal or barometric gradient bias,9,1,2,18,Mandatory zero-baseline null test + A-B-A position inversion protocol,Controlled / Negligible
