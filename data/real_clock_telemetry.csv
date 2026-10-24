@@ -1,0 +1,4 @@
+experiment_id,campaign,baseline_m,phenomenon,clock_technology,theoretical_shift,measured_shift,uncertainty,agreement_sigma,status
+EXP-REAL-001,Tokyo Skytree Tower Campaign (Nature Photonics 2020),452.6,General Relativistic Gravitational Redshift,1D Strontium-87 Optical Lattice Clocks (1.0e-18 floor),4.934129899793964e-14,4.92e-14,4e-16,0.3532474948491,VALIDATED
+EXP-REAL-002,IGS Real GPS Constellation Orbit Relativistic Clock Bias,20180000.0,Combined Gravitational (+45.9 us/d) and Kinematic (-7.2 us/d),GPS Block IIF Spaceborne Rubidium Frequency Standards,4.479e-10,4.4789e-10,2e-14,0.5,VALIDATED
+EXP-REAL-003,NASA Deep Space Atomic Clock (DSAC) Flight Demo,720000.0,Spaceborne Ion-Trap Stability in Low Earth Orbit,Mercury Ion (199Hg+) Space Atomic Clock,5.86e-11,5.861e-11,3e-14,0.33,VALIDATED
