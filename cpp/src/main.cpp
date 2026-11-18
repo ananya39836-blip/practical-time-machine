@@ -10,6 +10,7 @@
 #include "blinded_audit.cpp"
 #include "daq_daemon.cpp"
 #include "oop_observatory.cpp"
+#include "web_server.cpp"
 
 #include <iostream>
 #include <iomanip>
@@ -39,6 +40,7 @@ void print_help() {
     std::cout << "  --real-data   Ingest and benchmark Tokyo Skytree, IGS GPS & NASA DSAC\n";
     std::cout << "  --oop         Execute UML-aligned OOP Polymorphism & Lifecycle Demo\n";
     std::cout << "  --benchmark   Benchmark C++ numerical solver throughput\n";
+    std::cout << "  --serve [port] Deploy native C++ HTTP web server (default 8080)\n";
     std::cout << "  --help        Display this help menu\n\n";
 }
 
@@ -241,6 +243,8 @@ int main(int argc, char* argv[]) {
     bool run_real = false;
     bool run_oop = false;
     bool run_bench = false;
+    bool run_serve = false;
+    int serve_port = 8080;
 
     if (argc <= 1) {
         run_all = true;
@@ -256,6 +260,12 @@ int main(int argc, char* argv[]) {
             else if (arg == "--real-data") run_real = true;
             else if (arg == "--oop") run_oop = true;
             else if (arg == "--benchmark") run_bench = true;
+            else if (arg == "--serve") {
+                run_serve = true;
+                if (i + 1 < argc && argv[i+1][0] != '-') {
+                    serve_port = std::atoi(argv[++i]);
+                }
+            }
             else if (arg == "--help") {
                 print_help();
                 return 0;
@@ -271,6 +281,13 @@ int main(int argc, char* argv[]) {
     if (run_all || run_real) run_real_data_demo();
     if (run_all || run_bench) run_benchmark_demo();
     if (run_all || run_oop) run_oop_demo();
+    if (run_serve) {
+        PtmWebServer server(serve_port);
+        if (server.start()) {
+            server.run_loop();
+        }
+        return 0;
+    }
 
     std::cout << "================================================================================\n";
     std::cout << "  ALL LEVEL-10 C++ METROLOGY & RELATIVISTIC MODULES FULLY OPERATIONAL\n";
