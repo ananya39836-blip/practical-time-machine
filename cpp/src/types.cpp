@@ -1,5 +1,5 @@
-#ifndef PTM_TYPES_HPP
-#define PTM_TYPES_HPP
+#ifndef PTM_TYPES_CPP
+#define PTM_TYPES_CPP
 
 #include <vector>
 #include <string>
@@ -101,4 +101,4 @@ struct BlindedAuditResult {
 
 } // namespace ptm
 
-#endif // PTM_TYPES_HPP
+#endif // PTM_TYPES_CPP

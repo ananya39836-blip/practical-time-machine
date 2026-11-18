@@ -1,0 +1,77 @@
+<mxfile host="app.diagrams.net" modified="2026-11-18T16:45:00.000Z" agent="PTM-UML-Generator" version="24.0.0">
+  <diagram id="ptm-uml-oop-2virtual" name="PTM C++ OOP (2 Virtual Classes)">
+    <mxGraphModel dx="1680" dy="1050" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1900" pageHeight="1250" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+
+        <!-- VIRTUAL CLASS 1: TimeDilationSensor -->
+        <mxCell id="cls_sensor" value="&lt;p style=&quot;margin:0;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;laquo;Abstract&amp;raquo;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;&lt;i&gt;TimeDilationSensor&lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;- sensorID : int {readOnly}&lt;br/&gt;- &lt;u&gt;totalSensors : int&lt;/u&gt;&lt;br/&gt;# name : string&lt;br/&gt;# elevationMeters : double&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;+ &amp;laquo;create&amp;raquo; TimeDilationSensor(id : int, n : string, elev : double)&lt;br/&gt;+ &amp;laquo;destroy&amp;raquo; ~TimeDilationSensor() {virtual}&lt;br/&gt;+ &lt;i&gt;computeFractionalShift() : double {abstract, query}&lt;/i&gt;&lt;br/&gt;+ &lt;i&gt;getMeasurementUncertainty() : double {abstract, query}&lt;/i&gt;&lt;br/&gt;+ displayInfo() : void {query}&lt;br/&gt;+ getSensorID() : int {query}&lt;br/&gt;+ getElevation() : double {query}&lt;br/&gt;+ getName() : string {query}&lt;br/&gt;+ &lt;u&gt;getSensorCount() : int&lt;/u&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Courier New;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#1B365D;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="250" y="30" width="490" height="255" as="geometry" />
+        </mxCell>
+
+        <!-- VIRTUAL CLASS 2: MetricAuditor -->
+        <mxCell id="cls_auditor" value="&lt;p style=&quot;margin:0;margin-top:4px;text-align:center;&quot;&gt;&lt;i&gt;&amp;laquo;Abstract&amp;raquo;&lt;/i&gt;&lt;br/&gt;&lt;b&gt;&lt;i&gt;MetricAuditor&lt;/i&gt;&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;- auditorCode : string {readOnly}&lt;br/&gt;- &lt;u&gt;totalAuditors : int&lt;/u&gt;&lt;br/&gt;# targetObservatory : SpacetimeObservatory*&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;+ &amp;laquo;create&amp;raquo; MetricAuditor(code : string, obs : SpacetimeObservatory*)&lt;br/&gt;+ &amp;laquo;destroy&amp;raquo; ~MetricAuditor() {virtual}&lt;br/&gt;+ &lt;i&gt;verifySensorCompliance(s : const TimeDilationSensor&amp;amp;) : bool {abstract, query}&lt;/i&gt;&lt;br/&gt;+ &lt;i&gt;generateObservatoryAudit() : void {abstract, query}&lt;/i&gt;&lt;br/&gt;+ &lt;i&gt;getAuditProtocol() : string {abstract, query}&lt;/i&gt;&lt;br/&gt;+ getAuditorCode() : string {query}&lt;br/&gt;+ &lt;u&gt;getAuditorCount() : int&lt;/u&gt;&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Courier New;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#1B365D;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1080" y="30" width="560" height="240" as="geometry" />
+        </mxCell>
+
+        <!-- Derived from TimeDilationSensor -->
+        <mxCell id="cls_rb" value="&lt;p style=&quot;margin:0;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;RubidiumAtomicClock&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;- allanFloor : double&lt;br/&gt;- cavityTempC : double&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;+ &amp;laquo;create&amp;raquo; RubidiumAtomicClock(id:int, n:string, elev:double, floor:double, temp:double)&lt;br/&gt;+ &amp;laquo;destroy&amp;raquo; ~RubidiumAtomicClock()&lt;br/&gt;+ computeFractionalShift() : double {query}&lt;br/&gt;+ getMeasurementUncertainty() : double {query}&lt;br/&gt;+ displayInfo() : void {query}&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Courier New;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#1B365D;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="40" y="370" width="290" height="175" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cls_sr" value="&lt;p style=&quot;margin:0;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;OpticalLatticeClock&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;- laserWavelengthNm : double {readOnly}&lt;br/&gt;- latticeDepthEr : double&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;+ &amp;laquo;create&amp;raquo; OpticalLatticeClock(id:int, n:string, elev:double, wl:double, depth:double)&lt;br/&gt;+ &amp;laquo;destroy&amp;raquo; ~OpticalLatticeClock()&lt;br/&gt;+ computeFractionalShift() : double {query}&lt;br/&gt;+ getMeasurementUncertainty() : double {query}&lt;br/&gt;+ displayInfo() : void {query}&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Courier New;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#1B365D;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="350" y="370" width="290" height="175" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cls_lidar" value="&lt;p style=&quot;margin:0;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;LidarGeodesyStation&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;- pointCount : int&lt;br/&gt;- rangeNoiseMm : double&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;+ &amp;laquo;create&amp;raquo; LidarGeodesyStation(id:int, n:string, elev:double, pts:int, noise:double)&lt;br/&gt;+ &amp;laquo;destroy&amp;raquo; ~LidarGeodesyStation()&lt;br/&gt;+ computeFractionalShift() : double {query}&lt;br/&gt;+ getMeasurementUncertainty() : double {query}&lt;br/&gt;+ displayInfo() : void {query}&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Courier New;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#1B365D;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="660" y="370" width="290" height="175" as="geometry" />
+        </mxCell>
+
+        <!-- Derived from MetricAuditor -->
+        <mxCell id="cls_gum" value="&lt;p style=&quot;margin:0;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;StandardGumAuditor&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;- maxUncertaintyFloor : double&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;+ &amp;laquo;create&amp;raquo; StandardGumAuditor(code:string, obs:SpacetimeObservatory*, maxFloor:double)&lt;br/&gt;+ &amp;laquo;destroy&amp;raquo; ~StandardGumAuditor()&lt;br/&gt;+ verifySensorCompliance(s:const TimeDilationSensor&amp;amp;) : bool {query}&lt;br/&gt;+ generateObservatoryAudit() : void {query}&lt;br/&gt;+ getAuditProtocol() : string {query}&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Courier New;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#1B365D;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1030" y="370" width="350" height="175" as="geometry" />
+        </mxCell>
+
+        <mxCell id="cls_crypto" value="&lt;p style=&quot;margin:0;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;BlindedCryptoAuditor&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;- secretOffsetPs : double {readOnly}&lt;br/&gt;- maxResidualPs : double&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;+ &amp;laquo;create&amp;raquo; BlindedCryptoAuditor(code:string, obs:SpacetimeObservatory*, offsetPs:double, maxResPs:double)&lt;br/&gt;+ &amp;laquo;destroy&amp;raquo; ~BlindedCryptoAuditor()&lt;br/&gt;+ verifySensorCompliance(s:const TimeDilationSensor&amp;amp;) : bool {query}&lt;br/&gt;+ generateObservatoryAudit() : void {query}&lt;br/&gt;+ getAuditProtocol() : string {query}&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=10;fontFamily=Courier New;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#1B365D;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="1410" y="370" width="380" height="175" as="geometry" />
+        </mxCell>
+
+        <!-- Container: SpacetimeObservatory -->
+        <mxCell id="cls_obs" value="&lt;p style=&quot;margin:0;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;SpacetimeObservatory&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;- observatoryName : string&lt;br/&gt;- sensors : TimeDilationSensor* [10]&lt;br/&gt;- sensorCount : int&lt;br/&gt;- logs : TelemetryLog* [50]&lt;br/&gt;- logCount : int&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;+ &amp;laquo;create&amp;raquo; SpacetimeObservatory(name : string)&lt;br/&gt;+ &amp;laquo;destroy&amp;raquo; ~SpacetimeObservatory()&lt;br/&gt;+ attachSensor(s : TimeDilationSensor*) : bool&lt;br/&gt;+ recordTelemetry(durationSec : double) : void&lt;br/&gt;+ runPolymorphicDiagnostics() : void {query}&lt;br/&gt;+ executePolymorphicAudit(auditor : const MetricAuditor*) : void {query}&lt;br/&gt;+ getSensorCount() : int {query}&lt;br/&gt;+ getLogCount() : int {query}&lt;br/&gt;+ getLog(index : int) : TelemetryLog* {query}&lt;br/&gt;+ getSensor(index : int) : TimeDilationSensor* {query}&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Courier New;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#1B365D;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="180" y="650" width="520" height="270" as="geometry" />
+        </mxCell>
+
+        <!-- Composed Part: TelemetryLog -->
+        <mxCell id="cls_log" value="&lt;p style=&quot;margin:0;margin-top:4px;text-align:center;&quot;&gt;&lt;b&gt;TelemetryLog&lt;/b&gt;&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;- logID : int {readOnly}&lt;br/&gt;- timestampSec : double&lt;br/&gt;- properTimeAdvanceNs : double&lt;br/&gt;- verified : bool&lt;/p&gt;&lt;hr/&gt;&lt;p style=&quot;margin:0;margin-left:6px;&quot;&gt;+ &amp;laquo;create&amp;raquo; TelemetryLog(id : int, t : double, advNs : double)&lt;br/&gt;+ &amp;laquo;destroy&amp;raquo; ~TelemetryLog()&lt;br/&gt;+ markVerified() : void&lt;br/&gt;+ getAdvanceNs() : double {query}&lt;br/&gt;+ isVerified() : bool {query}&lt;/p&gt;" style="verticalAlign=top;align=left;overflow=fill;fontSize=11;fontFamily=Courier New;html=1;whiteSpace=wrap;fillColor=#FFFFFF;strokeColor=#1B365D;strokeWidth=2;" vertex="1" parent="1">
+          <mxGeometry x="860" y="690" width="430" height="190" as="geometry" />
+        </mxCell>
+
+        <!-- Inheritance Hierarchy 1 -->
+        <mxCell id="rel_inh_rb" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;endSize=14;strokeColor=#1B365D;strokeWidth=2;" edge="1" parent="1" source="cls_rb" target="cls_sensor"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="rel_inh_sr" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;endSize=14;strokeColor=#1B365D;strokeWidth=2;" edge="1" parent="1" source="cls_sr" target="cls_sensor"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="rel_inh_lidar" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;endSize=14;strokeColor=#1B365D;strokeWidth=2;" edge="1" parent="1" source="cls_lidar" target="cls_sensor"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Inheritance Hierarchy 2 -->
+        <mxCell id="rel_inh_gum" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;endSize=14;strokeColor=#1B365D;strokeWidth=2;" edge="1" parent="1" source="cls_gum" target="cls_auditor"><mxGeometry relative="1" as="geometry" /></mxCell>
+        <mxCell id="rel_inh_crypto" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=block;endFill=0;endSize=14;strokeColor=#1B365D;strokeWidth=2;" edge="1" parent="1" source="cls_crypto" target="cls_auditor"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Composition -->
+        <mxCell id="rel_comp" value="Composition (1  ..  0..*)" style="edgeStyle=orthogonalEdgeStyle;html=1;startArrow=diamondThin;startFill=1;startSize=14;endArrow=none;strokeColor=#1B365D;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1" source="cls_obs" target="cls_log"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Aggregation -->
+        <mxCell id="rel_agg" value="Aggregation (1 .. 0..*)" style="edgeStyle=orthogonalEdgeStyle;html=1;startArrow=diamondThin;startFill=0;startSize=14;endArrow=none;strokeColor=#1B365D;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1" source="cls_obs" target="cls_sensor">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="15" y="750" /><mxPoint x="15" y="150" /></Array></mxGeometry>
+        </mxCell>
+
+        <!-- Dependency: MetricAuditor ..> TimeDilationSensor -->
+        <mxCell id="rel_dep1" value="Dependency (uses)" style="edgeStyle=orthogonalEdgeStyle;html=1;dashed=1;dashPattern=6 4;endArrow=open;endFill=0;endSize=12;strokeColor=#1B365D;strokeWidth=2;fontSize=11;fontStyle=2;" edge="1" parent="1" source="cls_auditor" target="cls_sensor"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+        <!-- Association: MetricAuditor --> SpacetimeObservatory -->
+        <mxCell id="rel_assoc" value="Association (* -&gt; 0..1)" style="edgeStyle=orthogonalEdgeStyle;html=1;endArrow=open;endFill=0;endSize=12;strokeColor=#1B365D;strokeWidth=2;fontSize=11;fontStyle=1;" edge="1" parent="1" source="cls_auditor" target="cls_obs">
+          <mxGeometry relative="1" as="geometry"><Array as="points"><mxPoint x="1830" y="150" /><mxPoint x="1830" y="960" /><mxPoint x="440" y="960" /></Array></mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>

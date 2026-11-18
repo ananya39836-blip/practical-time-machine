@@ -1,0 +1,163 @@
+@startuml PTM_UML_Class_Diagram
+' =============================================================================
+' Practical Time Machine (PTM) - C++ OOP Architecture UML Class Diagram
+' TWO Virtual/Abstract Base Classes + Runtime Polymorphism
+' 1-to-1 Code Fidelity with cpp/src/oop_observatory.cpp
+' =============================================================================
+
+skinparam classAttributeIconSize 0
+skinparam shadowing false
+skinparam roundcorner 0
+skinparam linetype ortho
+skinparam defaultFontName "Arial"
+skinparam class {
+    BackgroundColor #FFFFFF
+    BorderColor #1B365D
+    HeaderBackgroundColor #EAF1F8
+    ArrowColor #1B365D
+    FontColor #0F172A
+}
+
+' ==================== VIRTUAL CLASS 1 ====================
+abstract class TimeDilationSensor <<Abstract>> {
+    - sensorID : int {readOnly}
+    - {static} totalSensors : int
+    # name : string
+    # elevationMeters : double
+    --
+    + <<create>> TimeDilationSensor(id : int, n : string, elev : double)
+    + <<destroy>> ~TimeDilationSensor() {virtual}
+    + {abstract} computeFractionalShift() : double {abstract, query}
+    + {abstract} getMeasurementUncertainty() : double {abstract, query}
+    + displayInfo() : void {query}
+    + getSensorID() : int {query}
+    + getElevation() : double {query}
+    + getName() : string {query}
+    + {static} getSensorCount() : int
+}
+
+class RubidiumAtomicClock {
+    - allanFloor : double
+    - cavityTempC : double
+    --
+    + <<create>> RubidiumAtomicClock(id : int, n : string, elev : double, floor : double, temp : double)
+    + <<destroy>> ~RubidiumAtomicClock()
+    + computeFractionalShift() : double {query}
+    + getMeasurementUncertainty() : double {query}
+    + displayInfo() : void {query}
+}
+
+class OpticalLatticeClock {
+    - laserWavelengthNm : double {readOnly}
+    - latticeDepthEr : double
+    --
+    + <<create>> OpticalLatticeClock(id : int, n : string, elev : double, wl : double, depth : double)
+    + <<destroy>> ~OpticalLatticeClock()
+    + computeFractionalShift() : double {query}
+    + getMeasurementUncertainty() : double {query}
+    + displayInfo() : void {query}
+}
+
+class LidarGeodesyStation {
+    - pointCount : int
+    - rangeNoiseMm : double
+    --
+    + <<create>> LidarGeodesyStation(id : int, n : string, elev : double, pts : int, noise : double)
+    + <<destroy>> ~LidarGeodesyStation()
+    + computeFractionalShift() : double {query}
+    + getMeasurementUncertainty() : double {query}
+    + displayInfo() : void {query}
+}
+
+' ==================== VIRTUAL CLASS 2 ====================
+abstract class MetricAuditor <<Abstract>> {
+    - auditorCode : string {readOnly}
+    - {static} totalAuditors : int
+    # targetObservatory : SpacetimeObservatory*
+    --
+    + <<create>> MetricAuditor(code : string, obs : SpacetimeObservatory*)
+    + <<destroy>> ~MetricAuditor() {virtual}
+    + {abstract} verifySensorCompliance(s : const TimeDilationSensor&) : bool {abstract, query}
+    + {abstract} generateObservatoryAudit() : void {abstract, query}
+    + {abstract} getAuditProtocol() : string {abstract, query}
+    + getAuditorCode() : string {query}
+    + {static} getAuditorCount() : int
+}
+
+class StandardGumAuditor {
+    - maxUncertaintyFloor : double
+    --
+    + <<create>> StandardGumAuditor(code : string, obs : SpacetimeObservatory*, maxFloor : double)
+    + <<destroy>> ~StandardGumAuditor()
+    + verifySensorCompliance(s : const TimeDilationSensor&) : bool {query}
+    + generateObservatoryAudit() : void {query}
+    + getAuditProtocol() : string {query}
+}
+
+class BlindedCryptoAuditor {
+    - secretOffsetPs : double {readOnly}
+    - maxResidualPs : double
+    --
+    + <<create>> BlindedCryptoAuditor(code : string, obs : SpacetimeObservatory*, offsetPs : double, maxResPs : double)
+    + <<destroy>> ~BlindedCryptoAuditor()
+    + verifySensorCompliance(s : const TimeDilationSensor&) : bool {query}
+    + generateObservatoryAudit() : void {query}
+    + getAuditProtocol() : string {query}
+}
+
+' ==================== CONTAINER & OWNED PART ====================
+class SpacetimeObservatory {
+    - observatoryName : string
+    - sensors : TimeDilationSensor* [10]
+    - sensorCount : int
+    - logs : TelemetryLog* [50]
+    - logCount : int
+    --
+    + <<create>> SpacetimeObservatory(name : string)
+    + <<destroy>> ~SpacetimeObservatory()
+    + attachSensor(s : TimeDilationSensor*) : bool
+    + recordTelemetry(durationSec : double) : void
+    + runPolymorphicDiagnostics() : void {query}
+    + executePolymorphicAudit(auditor : const MetricAuditor*) : void {query}
+    + getSensorCount() : int {query}
+    + getLogCount() : int {query}
+    + getLog(index : int) : TelemetryLog* {query}
+    + getSensor(index : int) : TimeDilationSensor* {query}
+}
+
+class TelemetryLog {
+    - logID : int {readOnly}
+    - timestampSec : double
+    - properTimeAdvanceNs : double
+    - verified : bool
+    --
+    + <<create>> TelemetryLog(id : int, t : double, advNs : double)
+    + <<destroy>> ~TelemetryLog()
+    + markVerified() : void
+    + getAdvanceNs() : double {query}
+    + isVerified() : bool {query}
+}
+
+' Inheritance Hierarchy 1 (Hollow triangles pointing UP to TimeDilationSensor)
+TimeDilationSensor <|-- RubidiumAtomicClock
+TimeDilationSensor <|-- OpticalLatticeClock
+TimeDilationSensor <|-- LidarGeodesyStation
+
+' Inheritance Hierarchy 2 (Hollow triangles pointing UP to MetricAuditor)
+MetricAuditor <|-- StandardGumAuditor
+MetricAuditor <|-- BlindedCryptoAuditor
+
+' Aggregation (Hollow Diamond on SpacetimeObservatory)
+SpacetimeObservatory "1" o-- "0..*" TimeDilationSensor : Aggregation
+
+' Composition (Filled Diamond on SpacetimeObservatory)
+SpacetimeObservatory "1" *-- "0..*" TelemetryLog : Composition
+
+' Association (Solid Directional Arrow: MetricAuditor -> SpacetimeObservatory)
+MetricAuditor "*" --> "0..1" SpacetimeObservatory : Association
+
+' Dependency (Dashed Open Arrows)
+MetricAuditor ..> TimeDilationSensor : Dependency (uses)
+SpacetimeObservatory ..> MetricAuditor : Dependency (dispatches)
+
+@enduml

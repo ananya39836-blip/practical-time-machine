@@ -1,13 +1,14 @@
-#include "ptm/constants.hpp"
-#include "ptm/types.hpp"
-#include "ptm/math_utils.hpp"
-#include "ptm/relativistic_model.hpp"
-#include "ptm/clock_noise.hpp"
-#include "ptm/kalman_filter.hpp"
-#include "ptm/lidar_geodesy.hpp"
-#include "ptm/computer_vision.hpp"
-#include "ptm/spacetime_digital_twin.hpp"
-#include "ptm/blinded_audit.hpp"
+#include "constants.cpp"
+#include "types.cpp"
+#include "math_utils.cpp"
+#include "relativistic_model.cpp"
+#include "clock_noise.cpp"
+#include "kalman_filter.cpp"
+#include "lidar_geodesy.cpp"
+#include "computer_vision.cpp"
+#include "spacetime_digital_twin.cpp"
+#include "blinded_audit.cpp"
+#include "oop_observatory.cpp"
 #include <iostream>
 #include <cassert>
 #include <cmath>
@@ -117,6 +118,56 @@ void test_blinded_audit() {
     std::cout << " PASSED\n";
 }
 
+void test_oop_architecture() {
+    std::cout << "[TEST] Running UML OOP Runtime Polymorphism (2 Virtual Classes) Tests...";
+    assert(TimeDilationSensor::getSensorCount() == 0);
+    assert(MetricAuditor::getAuditorCount() == 0);
+    {
+        RubidiumAtomicClock rb(101, "SRS-PRS10", 100.0, 2.0e-12, 25.0);
+        OpticalLatticeClock sr(102, "Sr-87 Lattice", 452.6, 813.42, 50.0);
+        LidarGeodesyStation lidar(103, "Leica-P50", 100.0, 2500, 0.263);
+
+        assert(TimeDilationSensor::getSensorCount() == 3);
+
+        // Runtime polymorphism via Virtual Class 1 (TimeDilationSensor*)
+        TimeDilationSensor* sensorArr[3] = { &rb, &sr, &lidar };
+        assert(sensorArr[1]->computeFractionalShift() > 4.9e-14);
+        assert(sensorArr[1]->getMeasurementUncertainty() < 1.1e-18);
+        assert(sensorArr[2]->getMeasurementUncertainty() < 1.0e-18);
+
+        {
+            SpacetimeObservatory obs("UnitTest Observatory");
+            for (int i = 0; i < 3; ++i) {
+                assert(obs.attachSensor(sensorArr[i]));
+            }
+            assert(obs.getSensorCount() == 3);
+
+            // Composition: allocates 3 TelemetryLog objects via new
+            obs.recordTelemetry(259200.0);
+            assert(obs.getLogCount() == 3);
+            assert(obs.getLog(1) != nullptr);
+            assert(obs.getLog(1)->isVerified());
+            assert(obs.getLog(1)->getAdvanceNs() > 12.0);
+
+            // Runtime polymorphism via Virtual Class 2 (MetricAuditor*)
+            StandardGumAuditor gum("TEST-GUM-01", &obs, 1.0e-11);
+            BlindedCryptoAuditor crypto("TEST-BLIND-02", &obs, 47.825, 0.10);
+            assert(MetricAuditor::getAuditorCount() == 2);
+
+            MetricAuditor* auditors[2] = { &gum, &crypto };
+            assert(auditors[0]->getAuditProtocol() == "ISO-GUM-NASA-SP-2016");
+            assert(auditors[1]->getAuditProtocol() == "REQ-SYS-020-BLINDED");
+            assert(auditors[0]->verifySensorCompliance(*sensorArr[1]));
+            assert(auditors[1]->verifySensorCompliance(*sensorArr[2]));
+        } // ~SpacetimeObservatory() deletes composed logs, preserves aggregated sensors
+
+        assert(TimeDilationSensor::getSensorCount() == 3);
+        assert(MetricAuditor::getAuditorCount() == 0);
+    } // Stack sensors destroyed -> virtual ~TimeDilationSensor() decrements static count
+    assert(TimeDilationSensor::getSensorCount() == 0);
+    std::cout << " PASSED\n";
+}
+
 int main() {
     std::cout << "\n=======================================================\n";
     std::cout << "   RUNNING PRACTICAL TIME MACHINE C++ TEST SUITE\n";
@@ -130,6 +181,7 @@ int main() {
     test_computer_vision();
     test_spacetime_raytracing();
     test_blinded_audit();
+    test_oop_architecture();
 
     std::cout << "\n=======================================================\n";
     std::cout << "   ALL C++ UNIT TESTS PASSED WITH 100% SUCCESS RATE\n";

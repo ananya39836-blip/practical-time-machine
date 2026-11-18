@@ -1,5 +1,5 @@
-#ifndef PTM_MATH_UTILS_HPP
-#define PTM_MATH_UTILS_HPP
+#ifndef PTM_MATH_UTILS_CPP
+#define PTM_MATH_UTILS_CPP
 
 #include <vector>
 #include <cmath>
@@ -232,4 +232,4 @@ inline void solve_linear_regression(const std::vector<double>& x, const std::vec
 
 } // namespace ptm
 
-#endif // PTM_MATH_UTILS_HPP
+#endif // PTM_MATH_UTILS_CPP

@@ -1,0 +1,58 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "C++: Build PTM Engine & Unit Tests",
+            "type": "shell",
+            "command": "${workspaceFolder}\\cpp\\build.bat",
+            "options": {
+                "cwd": "${workspaceFolder}\\cpp"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": ["$gcc"],
+            "detail": "Compiles all Practical Time Machine C++14 modules into ptm_engine.exe and ptm_tests.exe"
+        },
+        {
+            "label": "C++: Run PTM Engine (--all)",
+            "type": "shell",
+            "command": "${workspaceFolder}\\cpp\\bin\\ptm_engine.exe",
+            "args": ["--all"],
+            "options": {
+                "cwd": "${workspaceFolder}\\cpp"
+            },
+            "dependsOn": ["C++: Build PTM Engine & Unit Tests"],
+            "problemMatcher": [],
+            "detail": "Runs full Level-10 C++ relativistic simulation, LiDAR, CV, digital twin, and OOP demo"
+        },
+        {
+            "label": "C++: Run OOP Polymorphism Demo (--oop)",
+            "type": "shell",
+            "command": "${workspaceFolder}\\cpp\\bin\\ptm_engine.exe",
+            "args": ["--oop"],
+            "options": {
+                "cwd": "${workspaceFolder}\\cpp"
+            },
+            "dependsOn": ["C++: Build PTM Engine & Unit Tests"],
+            "problemMatcher": [],
+            "detail": "Demonstrates UML-aligned C++ Inheritance, Runtime Polymorphism, Aggregation, Composition, Association & Dependency"
+        },
+        {
+            "label": "C++: Run Automated Unit Tests",
+            "type": "shell",
+            "command": "${workspaceFolder}\\cpp\\bin\\ptm_tests.exe",
+            "options": {
+                "cwd": "${workspaceFolder}\\cpp"
+            },
+            "dependsOn": ["C++: Build PTM Engine & Unit Tests"],
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "detail": "Executes all 9 C++ unit test suites including UML OOP lifecycle verification"
+        }
+    ]
+}

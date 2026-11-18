@@ -1,5 +1,5 @@
-#ifndef PTM_CONSTANTS_HPP
-#define PTM_CONSTANTS_HPP
+#ifndef PTM_CONSTANTS_CPP
+#define PTM_CONSTANTS_CPP
 
 namespace ptm {
 
@@ -21,4 +21,4 @@ constexpr double THEORETICAL_GRADIENT = G_SURFACE / (C_LIGHT * C_LIGHT); // ~ 1.
 
 } // namespace ptm
 
-#endif // PTM_CONSTANTS_HPP
+#endif // PTM_CONSTANTS_CPP

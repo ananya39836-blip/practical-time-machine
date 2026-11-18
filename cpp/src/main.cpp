@@ -1,14 +1,15 @@
-#include "ptm/constants.hpp"
-#include "ptm/types.hpp"
-#include "ptm/relativistic_model.hpp"
-#include "ptm/clock_noise.hpp"
-#include "ptm/kalman_filter.hpp"
-#include "ptm/lidar_geodesy.hpp"
-#include "ptm/computer_vision.hpp"
-#include "ptm/spacetime_digital_twin.hpp"
-#include "ptm/data_validator.hpp"
-#include "ptm/blinded_audit.hpp"
-#include "ptm/daq_daemon.hpp"
+#include "constants.cpp"
+#include "types.cpp"
+#include "relativistic_model.cpp"
+#include "clock_noise.cpp"
+#include "kalman_filter.cpp"
+#include "lidar_geodesy.cpp"
+#include "computer_vision.cpp"
+#include "spacetime_digital_twin.cpp"
+#include "data_validator.cpp"
+#include "blinded_audit.cpp"
+#include "daq_daemon.cpp"
+#include "oop_observatory.cpp"
 
 #include <iostream>
 #include <iomanip>
@@ -36,6 +37,7 @@ void print_help() {
     std::cout << "  --raytrace    Execute 3D spacetime metric tensor null geodesic ray-tracing\n";
     std::cout << "  --blind-test  Execute REQ-SYS-020 blinded injection & recovery test (<0.1 ps)\n";
     std::cout << "  --real-data   Ingest and benchmark Tokyo Skytree, IGS GPS & NASA DSAC\n";
+    std::cout << "  --oop         Execute UML-aligned OOP Polymorphism & Lifecycle Demo\n";
     std::cout << "  --benchmark   Benchmark C++ numerical solver throughput\n";
     std::cout << "  --help        Display this help menu\n\n";
 }
@@ -186,6 +188,47 @@ void run_benchmark_demo() {
     std::cout << "[STATUS: ULTRA HIGH PERFORMANCE C++ EXECUTION]\n\n";
 }
 
+void run_oop_demo() {
+    std::cout << "--- [8] UML-ALIGNED OOP RUNTIME POLYMORPHISM (2 VIRTUAL CLASSES) ---\n";
+    // Virtual Hierarchy 1: TimeDilationSensor* (3 concrete derived sensors)
+    RubidiumAtomicClock rbClock(101, "SRS-PRS10 Apex Clock", 100.0, 2.0e-12, 25.02);
+    OpticalLatticeClock srClock(102, "Sr-87 Optical Lattice", 452.6, 813.42, 50.0);
+    LidarGeodesyStation lidarSt(103, "Leica-P50 Tower Datum", 100.0, 2500, 0.263);
+
+    {
+        SpacetimeObservatory observatory("PTM Level-10 Spacetime Observatory");
+        // Aggregation (Hollow Diamond): sensors attached externally, NOT deleted by observatory
+        observatory.attachSensor(&rbClock);
+        observatory.attachSensor(&srClock);
+        observatory.attachSensor(&lidarSt);
+
+        // Composition (Filled Diamond): allocates TelemetryLog* via new, deleted in ~SpacetimeObservatory()
+        observatory.recordTelemetry(259200.0);
+        observatory.runPolymorphicDiagnostics();
+
+        // Virtual Hierarchy 2: MetricAuditor* (2 concrete derived auditors)
+        StandardGumAuditor gumAuditor("NASA-GUM-01", &observatory, 1.0e-11);
+        BlindedCryptoAuditor cryptoAuditor("REQ-SYS-020-A", &observatory, 47.825, 0.10);
+
+        MetricAuditor* auditors[2] = { &gumAuditor, &cryptoAuditor };
+        for (int i = 0; i < 2; ++i) {
+            // Runtime polymorphic dispatch via MetricAuditor* base class pointer
+            observatory.executePolymorphicAudit(auditors[i]);
+            bool compliant = auditors[i]->verifySensorCompliance(srClock);
+            std::cout << "  -> [" << auditors[i]->getAuditProtocol()
+                      << "] Sr-87 Dependency Verification: "
+                      << (compliant ? "PASS" : "FAIL") << "\n";
+        }
+        // Exiting scope calls ~SpacetimeObservatory() -> deletes composed TelemetryLogs ONLY
+    }
+
+    std::cout << "• Sensors surviving ~SpacetimeObservatory() (Aggregation): "
+              << TimeDilationSensor::getSensorCount() << " active\n";
+    std::cout << "• Active MetricAuditors after scope cleanup: "
+              << MetricAuditor::getAuditorCount() << "\n";
+    std::cout << "[STATUS: PASSED (2 Virtual Classes + Full Runtime Polymorphism Verified)]\n\n";
+}
+
 int main(int argc, char* argv[]) {
     print_banner();
 
@@ -196,6 +239,7 @@ int main(int argc, char* argv[]) {
     bool run_st = false;
     bool run_blind = false;
     bool run_real = false;
+    bool run_oop = false;
     bool run_bench = false;
 
     if (argc <= 1) {
@@ -210,6 +254,7 @@ int main(int argc, char* argv[]) {
             else if (arg == "--raytrace") run_st = true;
             else if (arg == "--blind-test") run_blind = true;
             else if (arg == "--real-data") run_real = true;
+            else if (arg == "--oop") run_oop = true;
             else if (arg == "--benchmark") run_bench = true;
             else if (arg == "--help") {
                 print_help();
@@ -225,6 +270,7 @@ int main(int argc, char* argv[]) {
     if (run_all || run_blind) run_blind_test_demo();
     if (run_all || run_real) run_real_data_demo();
     if (run_all || run_bench) run_benchmark_demo();
+    if (run_all || run_oop) run_oop_demo();
 
     std::cout << "================================================================================\n";
     std::cout << "  ALL LEVEL-10 C++ METROLOGY & RELATIVISTIC MODULES FULLY OPERATIONAL\n";

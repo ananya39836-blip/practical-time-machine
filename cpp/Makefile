@@ -1,30 +1,31 @@
 CXX = g++
-CXXFLAGS = -std=c++14 -O3 -Wall -Wextra -Iinclude
+CXXFLAGS = -std=c++14 -O3 -Wall -Wextra -Isrc
 
-SRCS = src/relativistic_model.cpp \
-       src/clock_noise.cpp \
-       src/kalman_filter.cpp \
-       src/lidar_geodesy.cpp \
-       src/computer_vision.cpp \
-       src/spacetime_digital_twin.cpp \
-       src/data_validator.cpp \
-       src/blinded_audit.cpp \
-       src/daq_daemon.cpp
+ifeq ($(OS),Windows_NT)
+	EXT = .exe
+	MKDIR = if not exist bin mkdir bin
+	RM = del /Q bin\*.exe
+else
+	EXT =
+	MKDIR = mkdir -p bin
+	RM = rm -f bin/ptm_engine bin/ptm_tests
+endif
 
-OBJS = $(SRCS:.cpp=.o)
+all: bin/ptm_engine$(EXT) bin/ptm_tests$(EXT)
 
-all: bin/ptm_engine.exe bin/ptm_tests.exe
+bin/ptm_engine$(EXT): src/main.cpp src/*.cpp
+	@$(MKDIR)
+	$(CXX) $(CXXFLAGS) src/main.cpp -o $@
 
-bin/ptm_engine.exe: $(OBJS) src/main.o
-	@if not exist bin mkdir bin
-	$(CXX) $(CXXFLAGS) -o $@ $^
+bin/ptm_tests$(EXT): src/tests.cpp src/*.cpp
+	@$(MKDIR)
+	$(CXX) $(CXXFLAGS) src/tests.cpp -o $@
 
-bin/ptm_tests.exe: $(OBJS) src/tests.o
-	@if not exist bin mkdir bin
-	$(CXX) $(CXXFLAGS) -o $@ $^
+test: bin/ptm_tests$(EXT)
+	./bin/ptm_tests$(EXT)
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@
+run: bin/ptm_engine$(EXT)
+	./bin/ptm_engine$(EXT) --all
 
 clean:
-	del /Q src\*.o bin\*.exe
+	$(RM)

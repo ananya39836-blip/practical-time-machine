@@ -1,0 +1,22 @@
+{
+    "folders": [
+        {
+            "name": "Practical Time Machine (C++ Root)",
+            "path": "."
+        },
+        {
+            "name": "C++ Source (.cpp Modules)",
+            "path": "cpp/src"
+        },
+        {
+            "name": "UML Class Diagrams",
+            "path": "cpp/uml"
+        }
+    ],
+    "settings": {
+        "C_Cpp.default.cppStandard": "c++14",
+        "C_Cpp.default.includePath": [
+            "${workspaceFolder}/cpp/src"
+        ]
+    }
+}
